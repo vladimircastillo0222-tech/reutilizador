@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precios — Reutilizador de Contenido</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><a href="/" class="brand-link">🔁 <strong>Reutilizador</strong></a></div>
+  <nav><a href="/" class="link">Volver a la app</a></nav>
+</header>
+
+<main class="container narrow">
+  <div class="test-banner">🧪 MODO DE PRUEBA — ningún pago es real. Usa la tarjeta 4242 4242 4242 4242.</div>
+
+  <h1 class="center">Un plan simple, sin letra pequeña</h1>
+
+  <div class="plans">
+    <div class="plan card">
+      <h2>Gratis</h2>
+      <p class="price">$0<small>/mes</small></p>
+      <ul>
+        <li>✅ 5 reutilizaciones al mes</li>
+        <li>✅ Guion de TikTok + caption de Instagram + hilo de X</li>
+        <li>✅ 3 tonos (enérgico, profesional, divertido)</li>
+        <li>✅ Botones de copiar</li>
+      </ul>
+      <a href="/" class="btn btn-ghost btn-block">Empezar gratis</a>
+    </div>
+
+    <div class="plan card featured">
+      <div class="badge">Recomendado</div>
+      <h2>Pro</h2>
+      <p class="price">$19<small>/mes</small></p>
+      <ul>
+        <li>✅ <strong>Reutilizaciones ilimitadas</strong></li>
+        <li>✅ Todo lo del plan gratis</li>
+        <li>✅ Acceso anticipado a nuevas plataformas</li>
+        <li>✅ Soporte prioritario</li>
+      </ul>
+      <button id="btn-pro" class="btn btn-primary btn-block">Suscribirme — $19/mes</button>
+      <p class="muted small center">Pago procesado por Stripe (modo prueba).</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Preguntas frecuentes</h2>
+    <p><strong>¿Me van a cobrar de verdad?</strong><br>
+    No. Todo está en modo de prueba de Stripe: puedes completar el pago con la tarjeta 4242 4242 4242 4242 y no se mueve dinero real.</p>
+    <p><strong>¿Puedo cancelar?</strong><br>
+    Sí, cuando quieras. Al cancelar vuelves al plan gratis automáticamente.</p>
+    <p><strong>¿Qué pasa con mi texto?</strong><br>
+    Tu texto se procesa en el servidor para generar los resultados y no se comparte con nadie.</p>
+  </div>
+</main>
+
+<script>
+document.getElementById('btn-pro').addEventListener('click', async () => {
+  const token = localStorage.getItem('rc_token');
+  if (!token) {
+    alert('Primero crea tu cuenta gratis o inicia sesión.');
+    window.location.href = '/';
+    return;
+  }
+  const btn = document.getElementById('btn-pro');
+  btn.disabled = true;
+  btn.textContent = '⏳ Abriendo pago seguro…';
+  try {
+    const r = await fetch('/api/billing/checkout', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    const data = await r.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert(data.error || 'No se pudo iniciar el pago.');
+      btn.disabled = false;
+      btn.textContent = 'Suscribirme — $19/mes';
+    }
+  } catch {
+    alert('No se pudo conectar con el servidor.');
+    btn.disabled = false;
+    btn.textContent = 'Suscribirme — $19/mes';
+  }
+});
+if (new URLSearchParams(location.search).get('cancelado')) {
+  alert('Pago cancelado. No se hizo ningún cargo. Sigues en el plan gratis.');
+}
+</script>
+</body>
+</html>

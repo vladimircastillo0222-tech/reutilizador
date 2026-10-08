@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (¡NUNCA subir claves!)
+.env
+.env.local
+
+# Base de datos SQLite local
+data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite-journal
+
+# Sistema
+.DS_Store
+Thumbs.db

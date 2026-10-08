@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reutilizador de Contenido — de un texto a TikTok, Instagram y X</title>
+<meta name="description" content="Pega un texto largo y conviértelo en guion de TikTok, caption de Instagram e hilo de X.">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🔁 <strong>Reutilizador</strong></div>
+  <nav>
+    <a href="/pricing.html" class="link">Precios</a>
+    <span id="user-chip" class="chip hidden"></span>
+    <button id="btn-logout" class="btn btn-ghost hidden">Salir</button>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- ============ VISTA: ACCESO ============ -->
+  <section id="view-auth" class="card">
+    <h1>Convierte un texto en contenido para todas tus redes</h1>
+    <p class="muted">Pega un texto largo (o la transcripción de un video) y obtén un guion de TikTok con hook, un caption de Instagram con hashtags y un hilo de X — listos para copiar.</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-mode="login">Entrar</button>
+      <button class="auth-tab" data-mode="signup">Crear cuenta</button>
+    </div>
+    <form id="auth-form">
+      <label>Correo
+        <input type="email" id="auth-email" placeholder="tucorreo@ejemplo.com" required autocomplete="email">
+      </label>
+      <label>Contraseña
+        <input type="password" id="auth-password" placeholder="Mínimo 8 caracteres" required minlength="8" autocomplete="current-password">
+      </label>
+      <p id="auth-error" class="error hidden"></p>
+      <button type="submit" class="btn btn-primary btn-block" id="auth-submit">Entrar</button>
+    </form>
+    <p class="muted small">🎁 Plan gratis: 5 reutilizaciones al mes, sin tarjeta.</p>
+  </section>
+
+  <!-- ============ VISTA: APP ============ -->
+  <section id="view-app" class="hidden">
+    <div class="usage card">
+      <div>
+        <strong id="usage-text">0/5 usos gratis</strong>
+        <div class="bar"><div id="usage-fill"></div></div>
+      </div>
+      <a href="/pricing.html" class="btn btn-pro" id="btn-upgrade">Pasar a Pro — $19/mes</a>
+    </div>
+
+    <div class="card">
+      <label class="label">Pega tu texto largo o la transcripción de tu video</label>
+      <textarea id="input-text" rows="8" placeholder="Pega aquí tu texto… (mínimo unas 3 frases)"></textarea>
+      <div class="row wrap">
+        <div class="tones" role="group" aria-label="Tono">
+          <button class="tone active" data-tone="energetico">⚡ Enérgico</button>
+          <button class="tone" data-tone="profesional">💼 Profesional</button>
+          <button class="tone" data-tone="divertido">😄 Divertido</button>
+        </div>
+        <button id="btn-example" class="btn btn-ghost">Cargar ejemplo</button>
+      </div>
+      <p id="gen-error" class="error hidden"></p>
+      <button id="btn-generate" class="btn btn-primary btn-block">✨ Reutilizar contenido</button>
+    </div>
+
+    <div class="card hidden" id="results">
+      <div class="tabs">
+        <button class="tab active" data-tab="tiktok">🎵 TikTok</button>
+        <button class="tab" data-tab="instagram">📸 Instagram</button>
+        <button class="tab" data-tab="x">𝕏 X</button>
+      </div>
+
+      <div class="panel" data-panel="tiktok">
+        <div class="panel-head">
+          <span class="counter" id="count-tiktok"></span>
+          <button class="btn btn-small" data-copy="tiktok">📋 Copiar</button>
+        </div>
+        <pre id="out-tiktok" class="output"></pre>
+      </div>
+
+      <div class="panel hidden" data-panel="instagram">
+        <div class="panel-head">
+          <span class="counter" id="count-instagram"></span>
+          <button class="btn btn-small" data-copy="instagram">📋 Copiar</button>
+        </div>
+        <pre id="out-instagram" class="output"></pre>
+      </div>
+
+      <div class="panel hidden" data-panel="x">
+        <div class="panel-head">
+          <span class="counter" id="count-x"></span>
+          <button class="btn btn-small" data-copy="x">📋 Copiar</button>
+        </div>
+        <pre id="out-x" class="output"></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer muted small">
+  Reutilizador de Contenido · Hecho para creadores
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>
